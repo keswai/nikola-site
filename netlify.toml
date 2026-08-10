@@ -1,0 +1,21 @@
+# Netlify configuration for Nikola Medical static site
+# Ensures clean, consistent URLs and correct redirect behavior.
+
+[build]
+  publish = "."
+
+# Make trailing slashes optional/consistent so /thanks and /thanks/ both resolve.
+[[redirects]]
+  from = "/thanks"
+  to = "/thanks/"
+  status = 301
+
+[[redirects]]
+  from = "/request"
+  to = "/request/"
+  status = 301
+
+[[redirects]]
+  from = "/equipment-wanted"
+  to = "/equipment-wanted/"
+  status = 301
