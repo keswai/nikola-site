@@ -59,6 +59,76 @@
   </div>
 </section>
 
+
+<!-- SHOWCASE SLIDESHOW -->
+<section class="showcase">
+  <div class="showcase-head">
+    <h2>What We <em>Carry</em></h2>
+    <div class="sh-sub">Refurbished · Tested · Ready to Ship</div>
+  </div>
+  <div class="carousel" id="carousel">
+    <div class="slides" id="slides">
+      <div class="slide">
+        <img src="/img/adec-511-chair.jpg" alt="A-dec 511 Dental Chair" loading="lazy">
+        <div class="cap">
+          <span class="tag">Dental Chairs</span>
+          <h3>A-dec 511 Dental Chair</h3>
+          <p>Refurbished A-dec 511 with new upholstery — tested, cleaned, and ready to install.</p>
+        </div>
+      </div>
+      <div class="slide">
+        <img src="/img/cerec-mcxl.jpg" alt="Sirona CEREC / inLab MC XL" loading="lazy">
+        <div class="cap">
+          <span class="tag">CAD / CAM Milling</span>
+          <h3>Sirona CEREC / inLab MC XL</h3>
+          <p>Same-day crown milling. Inspected and calibrated for chairside or lab restorations.</p>
+        </div>
+      </div>
+      <div class="slide">
+        <img src="/img/ineos-x5-scanner.jpg" alt="Sirona inEos X5 Scanner" loading="lazy">
+        <div class="cap">
+          <span class="tag">Digital Scanning</span>
+          <h3>Sirona inEos X5 Scanner</h3>
+          <p>High-precision lab scanning for digital impressions and design workflows.</p>
+        </div>
+      </div>
+      <div class="slide">
+        <img src="/img/infire-furnace.jpg" alt="Sirona inFire HTC Speed Furnace" loading="lazy">
+        <div class="cap">
+          <span class="tag">Zirconia Sintering</span>
+          <h3>Sirona inFire HTC Speed Furnace</h3>
+          <p>CAD/CAM lab sintering furnace for zirconia restorations — fully functional.</p>
+        </div>
+      </div>
+      <div class="slide">
+        <img src="/img/statim-5000.jpg" alt="SciCan Statim 5000" loading="lazy">
+        <div class="cap">
+          <span class="tag">Sterilization</span>
+          <h3>SciCan Statim 5000</h3>
+          <p>Fast cassette autoclave, serviced and cycle-tested. Keeps your practice compliant.</p>
+        </div>
+      </div>
+      <div class="slide">
+        <img src="/img/sirona-cabinet.jpg" alt="Sirona Kappler Cabinet" loading="lazy">
+        <div class="cap">
+          <span class="tag">Cabinetry</span>
+          <h3>Sirona Kappler Cabinet</h3>
+          <p>Matched cabinetry for Sirona operatory systems. Clean, lockable, ready to place.</p>
+        </div>
+      </div>
+    
+    </div>
+
+    <button class="car-btn prev" id="prev" aria-label="Previous slide">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+    </button>
+    <button class="car-btn next" id="next" aria-label="Next slide">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+    </button>
+  </div>
+  <div class="dots" id="dots"></div>
+</section>
+
 <!-- MARQUEE -->
 <div class="strip">
   <div class="strip-inner">
@@ -141,5 +211,39 @@
 </footer>
 
 
+
+<script>
+(function(){
+  const track=document.getElementById('slides');
+  const slides=track.children;
+  const total=slides.length;
+  const dotsWrap=document.getElementById('dots');
+  let i=0, timer;
+  for(let d=0;d<total;d++){
+    const b=document.createElement('button');
+    b.className='dot-btn'+(d===0?' active':'');
+    b.setAttribute('aria-label','Go to slide '+(d+1));
+    b.addEventListener('click',()=>{go(d);reset();});
+    dotsWrap.appendChild(b);
+  }
+  const dots=dotsWrap.children;
+  function go(n){i=(n+total)%total;track.style.transform='translateX(-'+(i*100)+'%)';
+    for(let d=0;d<total;d++)dots[d].classList.toggle('active',d===i);}
+  function next(){go(i+1);}function prev(){go(i-1);}
+  function start(){timer=setInterval(next,5000);}
+  function reset(){clearInterval(timer);start();}
+  document.getElementById('next').addEventListener('click',()=>{next();reset();});
+  document.getElementById('prev').addEventListener('click',()=>{prev();reset();});
+  const car=document.getElementById('carousel');
+  car.addEventListener('mouseenter',()=>clearInterval(timer));
+  car.addEventListener('mouseleave',start);
+  // swipe on mobile
+  let x0=null;
+  car.addEventListener('touchstart',e=>x0=e.touches[0].clientX,{passive:true});
+  car.addEventListener('touchend',e=>{if(x0===null)return;const dx=e.changedTouches[0].clientX-x0;
+    if(Math.abs(dx)>40){dx<0?next():prev();reset();}x0=null;});
+  start();
+})();
+</script>
 </body>
 </html>
